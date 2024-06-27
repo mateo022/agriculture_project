@@ -14,13 +14,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Group\DTOs\" />
-    <Folder Include="Group\Models\" />
-    <Folder Include="Farm\DTOs\" />
-    <Folder Include="Farm\Models\" />
-    <Folder Include="Lot\Models\" />
-    <Folder Include="Lot\DTOs\" />
-  </ItemGroup>
-
 </Project>
