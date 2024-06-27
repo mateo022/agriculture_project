@@ -1,4 +1,5 @@
 ﻿using RestAPIBackendWebService.Domain.Farm.Models;
+using RestAPIBackendWebService.Domain.Group.Models;
 using System.Text.RegularExpressions;
 
 namespace RestAPIBackendWebService.Domain.Lot.Models
@@ -12,6 +13,6 @@ namespace RestAPIBackendWebService.Domain.Lot.Models
         public string Stage { get; set; }
 
         public FarmModel Farm { get; set; }
-        public ICollection<Group> Groups { get; set; }
+        public ICollection<GroupModel> Groups { get; set; }
     }
 }
