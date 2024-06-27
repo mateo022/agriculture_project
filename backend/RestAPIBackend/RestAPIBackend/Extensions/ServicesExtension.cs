@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RestAPIBackendWebService.Business.Farm.Contracts;
 using RestAPIBackendWebService.Business.Farm.Logic;
+using RestAPIBackendWebService.Business.Lot.Contracts;
+using RestAPIBackendWebService.Business.Lot.Logic;
 using RestAPIBackendWebService.Domain.Common.DTOs;
 using RestAPIBackendWebService.Domain.Common.Errors;
 using RestAPIBackendWebService.Services.Logger.Contract;
@@ -25,6 +27,8 @@ namespace RestAPIBackendWebService.Extensions
 
             #region BUSINESS LAYER
             services.AddScoped<IFarmBusiness, FarmBusiness>();
+            services.AddScoped<ILotBusiness, LotBusiness>();
+
 
             #endregion
             #region DATA ACCESS LAYER

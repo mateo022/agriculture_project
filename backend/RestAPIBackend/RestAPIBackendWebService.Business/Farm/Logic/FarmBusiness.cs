@@ -4,11 +4,12 @@ using RestAPIBackendWebService.Domain.Common.Models;
 using RestAPIBackendWebService.Domain.Farm.DTOs;
 using RestAPIBackendWebService.Domain.Farm.Models;
 using RestAPIBackendWebService.Domain.Lot.Entities;
+using RestAPIBackendWebService.Domain.Lot.Models;
 
 namespace RestAPIBackendWebService.Business.Farm.Logic
 {
 
-    public class FarmBusiness: IFarmBusiness
+    public class FarmBusiness : IFarmBusiness
     {
         private readonly RestAPIDbContext _context;
 
@@ -16,13 +17,16 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
         {
             _context = context;
         }
-        
+
         //Funtion to get all Farms
         public async Task<List<FarmResult>> GetAllFarmsAsync()
         {
             var result = new List<FarmResult>();
 
-            var farms = await _context.Farms.ToListAsync();
+            var farms = await _context.Farms
+                .Include(farm => farm.Lots) // Incluir la relación de lotes
+                .ToListAsync();
+
             foreach (var farmEntity in farms)
             {
                 var farmResult = new FarmResult
@@ -34,7 +38,16 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
                         Name = farmEntity.Name,
                         Location = farmEntity.Location,
                         Hectares = farmEntity.Hectares,
-                        Description = farmEntity.Description
+                        Description = farmEntity.Description,
+                        Lots = farmEntity.Lots.Select(lot => new LotModel
+                        {
+                            Id = lot.Id,
+                            FarmId = lot.FarmId,
+                            Name = lot.Name,
+                            Trees = lot.Trees,
+                            Stage = lot.Stage
+                            // Puedes agregar más propiedades según sea necesario
+                        }).ToList()
                     }
                 };
                 result.Add(farmResult);
@@ -81,7 +94,10 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
         {
             var result = new FarmResult { Success = true };
 
-            var farmEntity = await _context.Farms.FindAsync(id);
+            var farmEntity = await _context.Farms
+                .Include(farm => farm.Lots) // Incluye los lotes asociados a la finca
+                .FirstOrDefaultAsync(farm => farm.Id == id);
+
             if (farmEntity == null)
             {
                 result.ErrorsList.AddErrorForKey("Id", $"No se encontró la finca con ID {id}.");
@@ -95,7 +111,16 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
                 Name = farmEntity.Name,
                 Location = farmEntity.Location,
                 Hectares = farmEntity.Hectares,
-                Description = farmEntity.Description
+                Description = farmEntity.Description,
+                Lots = farmEntity.Lots.Select(lot => new LotModel
+                {
+                    Id = lot.Id,
+                    FarmId = lot.FarmId,
+                    Name = lot.Name,
+                    Trees = lot.Trees,
+                    Stage = lot.Stage
+                    // Puedes agregar más propiedades según sea necesario
+                }).ToList()
             };
 
             return result;

@@ -11,8 +11,6 @@ namespace RestAPIBackendWebService.Domain.Lot.Models
         public string Name { get; set; }
         public int Trees { get; set; }
         public string Stage { get; set; }
-
-        public FarmModel Farm { get; set; }
         public ICollection<GroupModel> Groups { get; set; }
     }
 }

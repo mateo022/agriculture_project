@@ -1,6 +1,6 @@
 ﻿namespace RestAPIBackendWebService.Domain.Lot.DTOs
 {
-    public class LotRequestDto
+    public class LotCreateDTO
     {
         public int FarmId { get; set; }
         public string Name { get; set; }
