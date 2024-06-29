@@ -4,6 +4,7 @@ import { FarmService } from '../../services/farms.service';
 import { MatDialog } from '@angular/material/dialog';
 import { NgbModal, NgbModalRef, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FarmCreateComponent } from '../farm-create/farm-create.component';
+import { FarmEditComponent } from '../farm-edit/farm-edit.component';
 
 @Component({
   selector: 'app-farm-main-view',
@@ -40,7 +41,18 @@ export class FarmMainViewComponent {
   }
 
   editFarm(farm: Farm): void {
+    const modalRef = this.modalService.open(FarmEditComponent, { size: 'lg' });
+    modalRef.componentInstance.farm = farm;
 
+    modalRef.result.then(
+      (result) => {
+        if (result === 'updated') {
+          this.loadFarms();
+        }
+      },
+    ).catch((error) => {
+      console.log('Modal dismissed with error:', error);
+    });
   }
 
   openDeleteModal(farm: Farm): void {

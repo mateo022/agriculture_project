@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Farm } from '../../models/farm.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FarmService } from '../../services/farms.service';
 
 @Component({
   selector: 'app-farm-edit',
@@ -6,5 +10,34 @@ import { Component } from '@angular/core';
   styleUrl: './farm-edit.component.css'
 })
 export class FarmEditComponent {
+  @Input() farm!: Farm;
+  editForm!: FormGroup;
 
+  constructor(
+    public activeModal: NgbActiveModal,
+    private fb: FormBuilder,
+    private farmService: FarmService
+  ) {}
+  ngOnInit(): void {
+    this.editForm = this.fb.group({
+      name: [this.farm.name, Validators.required],
+      location: [this.farm.location, Validators.required],
+      hectares: [this.farm.hectares, [Validators.required, Validators.min(0)]],
+      description: [this.farm.description]
+    });
+  }
+
+  save(): void {
+    if (this.editForm.valid) {
+      const updatedFarm = { ...this.farm, ...this.editForm.value };
+      this.farmService.updateFarm(this.farm.id, updatedFarm).subscribe(
+        () => this.activeModal.close('updated'),
+        (error) => console.error('Error updating farm:', error)
+      );
+    }
+  }
+
+  close(): void {
+    this.activeModal.dismiss('cancel');
+  }
 }

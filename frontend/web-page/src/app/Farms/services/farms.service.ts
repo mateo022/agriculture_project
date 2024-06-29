@@ -30,7 +30,7 @@ export class FarmService {
   }
 
   updateFarm(id: number, farm: Farm): Observable<Farm> {
-    return this._httpClient.put<Farm>(`${env.url_api}/${env.api_version}/farm/${id}`, farm);
+    return this._httpClient.put<Farm>(`${env.url_api}/${env.api_version}/farm?id=${id}`, farm);
   }
 
   deleteFarm(id: number): Observable<void> {
