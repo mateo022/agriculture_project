@@ -1,0 +1,43 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="display-4">Gestionar Lotes</h1>
+      <button class="btn btn-success" (click)="openAddLotModal()">
+        <i class="bi bi-plus-lg"></i> Agregar Lote
+      </button>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-4" *ngFor="let lot of lots">
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title">{{ lot.name }}</h5>
+            <h6 class="card-subtitle mb-2">Finca ID: {{ lot.farmId }}</h6>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><strong>Árboles:</strong> {{ lot.trees }}</p>
+            <p class="card-text"><strong>Etapa:</strong> {{ lot.stage }}</p>
+            
+            <hr>
+            <h6 class="mb-3">Grupos:</h6>
+            <div *ngIf="lot.groups.length > 0">
+              <div class="list-group">
+                <div *ngFor="let group of lot.groups" class="list-group-item">
+                  <p class="card-text">{{ group.name }}</p>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="lot.groups.length === 0" class="text-muted">No hay grupos disponibles.</div>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" (click)="editLot(lot)">
+              <i class="bi bi-pencil-square"></i> Editar
+            </button>
+            <button class="btn btn-danger" (click)="deleteLot(lot)">
+              <i class="bi bi-trash"></i> Eliminar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

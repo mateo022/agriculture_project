@@ -7,6 +7,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { SharedModule } from "./shared/shared.module";
 import { BasicLayoutComponent } from "./layouts/basic-layout/basic-layout.component";
 import { FarmsModule } from "./Farms/farms.module";
+import { LotsModule } from "./Lots/Lots.module";
+
 
 
 
@@ -24,7 +26,8 @@ import { FarmsModule } from "./Farms/farms.module";
       AppRoutingModule,
       HttpClientModule,
       SharedModule,
-      FarmsModule
+      FarmsModule,
+      LotsModule
   ]
 })
 export class AppModule { }

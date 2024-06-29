@@ -1,15 +1,15 @@
 import {
   DomSanitizer
-} from "./chunk-C3RQJ2BJ.js";
+} from "./chunk-ZSW2PXUE.js";
 import {
   HttpClient
-} from "./chunk-66WYFC3O.js";
+} from "./chunk-MFNNOVRZ.js";
 import {
   MatCommonModule
-} from "./chunk-NB5EGAJL.js";
+} from "./chunk-PHMEP5J5.js";
 import {
   DOCUMENT
-} from "./chunk-WA5RKCRT.js";
+} from "./chunk-777IFQLR.js";
 import {
   Attribute,
   ChangeDetectionStrategy,
@@ -25,20 +25,10 @@ import {
   Optional,
   SecurityContext,
   SkipSelf,
-  Subscription,
   ViewEncapsulation$1,
   booleanAttribute,
-  catchError,
-  finalize,
-  forkJoin,
   inject,
-  map,
-  of,
   setClassMetadata,
-  share,
-  take,
-  tap,
-  throwError,
   ɵɵInputTransformsFeature,
   ɵɵStandaloneFeature,
   ɵɵattribute,
@@ -53,7 +43,19 @@ import {
   ɵɵinjectAttribute,
   ɵɵprojection,
   ɵɵprojectionDef
-} from "./chunk-CS5KHBDO.js";
+} from "./chunk-ZUGTMA3V.js";
+import {
+  Subscription,
+  catchError,
+  finalize,
+  forkJoin,
+  map,
+  of,
+  share,
+  take,
+  tap,
+  throwError
+} from "./chunk-ZLMZVGHN.js";
 
 // ../node_modules/@angular/material/fesm2022/icon.mjs
 var _c0 = ["*"];
