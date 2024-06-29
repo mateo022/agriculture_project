@@ -104,7 +104,13 @@ namespace RestAPIBackendWebService.Business.Lot.Logic
                 Name = lotEntity.Name,
                 Trees = lotEntity.Trees,
                 Stage = lotEntity.Stage,
-                Groups = new List<GroupModel>() // Puedes inicializar grupos aquí si es necesario
+                Groups = lotEntity.Groups.Select(group => new GroupModel
+                {
+                    Id = group.Id,
+                    LotId = group.LotId,
+                    Name = group.Name
+                    // Agrega más propiedades según sea necesario
+                }).ToList()
             };
 
             return result;

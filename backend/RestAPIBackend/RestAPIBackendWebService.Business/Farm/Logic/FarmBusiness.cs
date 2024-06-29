@@ -3,6 +3,7 @@ using RestAPIBackendWebService.Business.Farm.Contracts;
 using RestAPIBackendWebService.Domain.Common.Models;
 using RestAPIBackendWebService.Domain.Farm.DTOs;
 using RestAPIBackendWebService.Domain.Farm.Models;
+using RestAPIBackendWebService.Domain.Group.Models;
 using RestAPIBackendWebService.Domain.Lot.Entities;
 using RestAPIBackendWebService.Domain.Lot.Models;
 
@@ -24,7 +25,8 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
             var result = new List<FarmResult>();
 
             var farms = await _context.Farms
-                .Include(farm => farm.Lots) // Incluir la relación de lotes
+                .Include(farm => farm.Lots)
+                    .ThenInclude(lot => lot.Groups) // Incluir la relación de grupos
                 .ToListAsync();
 
             foreach (var farmEntity in farms)
@@ -45,8 +47,14 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
                             FarmId = lot.FarmId,
                             Name = lot.Name,
                             Trees = lot.Trees,
-                            Stage = lot.Stage
-                            // Puedes agregar más propiedades según sea necesario
+                            Stage = lot.Stage,
+                            Groups = lot.Groups.Select(group => new GroupModel
+                            {
+                                Id = group.Id,
+                                LotId = group.LotId,
+                                Name = group.Name
+                                // Agrega más propiedades según sea necesario
+                            }).ToList()
                         }).ToList()
                     }
                 };
@@ -95,7 +103,8 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
             var result = new FarmResult { Success = true };
 
             var farmEntity = await _context.Farms
-                .Include(farm => farm.Lots) // Incluye los lotes asociados a la finca
+                .Include(farm => farm.Lots)
+                    .ThenInclude(lot => lot.Groups) // Incluye los grupos asociados a los lotes
                 .FirstOrDefaultAsync(farm => farm.Id == id);
 
             if (farmEntity == null)
@@ -118,8 +127,14 @@ namespace RestAPIBackendWebService.Business.Farm.Logic
                     FarmId = lot.FarmId,
                     Name = lot.Name,
                     Trees = lot.Trees,
-                    Stage = lot.Stage
-                    // Puedes agregar más propiedades según sea necesario
+                    Stage = lot.Stage,
+                    Groups = lot.Groups.Select(group => new GroupModel
+                    {
+                        Id = group.Id,
+                        LotId = group.LotId,
+                        Name = group.Name
+                        // Agrega más propiedades según sea necesario
+                    }).ToList()
                 }).ToList()
             };
 
