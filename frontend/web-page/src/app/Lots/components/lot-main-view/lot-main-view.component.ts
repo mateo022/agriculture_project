@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { Lot } from '../../models/lot.model';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { LotService } from '../../services/lots.service';
 import { LotCreateComponent } from '../lot-create/lot-create.component';
+import { FarmService } from '../../../Farms/services/farms.service';
+import { LotEditComponent } from '../lot-edit/lot-edit.component';
 
 @Component({
   selector: 'app-lot-main-view',
@@ -11,18 +13,40 @@ import { LotCreateComponent } from '../lot-create/lot-create.component';
 })
 export class LotMainViewComponent {
   lots: Lot[] = [];
-
+  farms: any[] = [];
+  selectedLot: Lot | null = null;
+  private modalRef: NgbModalRef | null = null;
+  
+  @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
   constructor(
     private modalService: NgbModal,
-    private lotService: LotService
+    private lotService: LotService,
+    private farmService: FarmService
   ) {
     this.loadLots();
+    this.fetchFarms();
   }
 
   loadLots(): void {
     this.lotService.getAllLots().subscribe(lots => {
       this.lots = lots;
     });
+  }
+
+  fetchFarms() {
+    this.farmService.getFarms().subscribe(
+      (data: any) => {
+        this.farms = data.data; // Asignar el array de fincas del servicio
+      },
+      error => {
+        console.error('Error fetching farms:', error);
+      }
+    );
+  }
+
+  getFarmName(farmId: number): string {
+    const farm = this.farms.find(f => f.id === farmId);
+    return farm ? farm.name : 'FInca Desconocida'; // Si no encuentra la finca, devuelve un valor por defecto
   }
 
   openAddLotModal(): void {
@@ -38,12 +62,46 @@ export class LotMainViewComponent {
       }
     );
   }
+editLot(lot: any): void {
+    const modalRef = this.modalService.open(LotEditComponent, {
+      size: 'lg',
+      centered: true,
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalRef.componentInstance.lot = lot; // Pasar el lote seleccionado al modal
 
-  editLot(lot: Lot): void {
-    // Implementar la lógica para editar una finca aquí
+    modalRef.result.then(
+      (result) => {
+        if (result) {
+          // Manejar la respuesta si es necesario
+          console.log('Lote actualizado:', result);
+          this.loadLots();
+          // Actualizar el array de lotes o realizar alguna acción de actualización
+        }
+      },
+      (reason) => {
+        console.log('Modal cerrado sin cambios:', reason);
+      }
+    );
+  }
+  openDeleteModal(lot: Lot): void {
+    this.selectedLot = lot;
+    this.modalRef = this.modalService.open(this.deleteModal, { size: 'lg' });
   }
 
-  deleteLot(lot: Lot): void {
-    // Implementar la lógica para eliminar una finca aquí
+  confirmDelete(modal: any): void {
+    if (this.selectedLot) {
+      this.lotService.deleteLot(this.selectedLot.id).subscribe(
+        () => {
+          this.loadLots();
+          modal.close('deleted');
+        },
+        error => {
+          console.error('Error al eliminar la finca:', error);
+          modal.dismiss('error');
+        }
+      );
+    }
   }
 }

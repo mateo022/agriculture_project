@@ -1,1 +1,30 @@
-<p>lot-create works!</p>
+<div class="container mt-4">
+    <h1 class="display-4">Crear Nuevo Lote</h1>
+    
+    <form [formGroup]="lotForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="farmId">Seleccione la Finca:</label>
+        <select id="farmId" class="form-control" formControlName="farmId">
+          <option *ngFor="let farm of farms" [value]="farm.id">{{ farm.name }}</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="name">Nombre del Lote:</label>
+        <input type="text" id="name" class="form-control" formControlName="name">
+      </div>
+      
+      <div class="form-group">
+        <label for="trees">Número de Árboles:</label>
+        <input type="number" id="trees" class="form-control" formControlName="trees">
+      </div>
+      
+      <div class="form-group">
+        <label for="stage">Etapa del Lote:</label>
+        <input type="text" id="stage" class="form-control" formControlName="stage">
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Crear Lote</button>
+    </form>
+  </div>
+  

@@ -11,7 +11,7 @@
         <div class="card mb-4">
           <div class="card-header bg-primary text-white">
             <h5 class="card-title">{{ lot.name }}</h5>
-            <h6 class="card-subtitle mb-2">Finca ID: {{ lot.farmId }}</h6>
+            <h6 class="card-subtitle mb-2">{{ getFarmName(lot.farmId) }}</h6>
           </div>
           <div class="card-body">
             <p class="card-text"><strong>Árboles:</strong> {{ lot.trees }}</p>
@@ -32,7 +32,7 @@
             <button class="btn btn-primary" (click)="editLot(lot)">
               <i class="bi bi-pencil-square"></i> Editar
             </button>
-            <button class="btn btn-danger" (click)="deleteLot(lot)">
+            <button class="btn btn-danger" (click)="openDeleteModal(lot)">
               <i class="bi bi-trash"></i> Eliminar
             </button>
           </div>
@@ -40,4 +40,19 @@
       </div>
     </div>
   </div>
+
+
+  <ng-template #deleteModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title">Confirmar Eliminación</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+    </div>
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas eliminar el lote "{{ selectedLot?.name }}"?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+      <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Eliminar</button>
+    </div>
+  </ng-template>
   

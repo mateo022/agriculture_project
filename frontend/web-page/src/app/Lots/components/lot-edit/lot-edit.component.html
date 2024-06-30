@@ -1,1 +1,49 @@
-<p>lot-edit works!</p>
+<div class="modal-header">
+    <h4 class="modal-title">Editar Lote</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input type="text" class="form-control" id="name" formControlName="name" required>
+        <div *ngIf="editForm.get('name')?.invalid && (editForm.get('name')?.dirty || editForm.get('name')?.touched)"
+             class="invalid-feedback">
+          El nombre es requerido.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="trees">Árboles</label>
+        <input type="number" class="form-control" id="trees" formControlName="trees" required>
+        <div *ngIf="editForm.get('trees')?.invalid && (editForm.get('trees')?.dirty || editForm.get('trees')?.touched)"
+             class="invalid-feedback">
+          La cantidad de árboles es requerida.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stage">Etapa</label>
+        <input type="text" class="form-control" id="stage" formControlName="stage" required>
+        <div *ngIf="editForm.get('stage')?.invalid && (editForm.get('stage')?.dirty || editForm.get('stage')?.touched)"
+             class="invalid-feedback">
+          La etapa es requerida.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="farmId">Finca</label>
+        <select class="form-control" id="farmId" formControlName="farmId" required>
+          <option *ngFor="let farm of farms" [ngValue]="farm.id">{{ farm.name }}</option>
+        </select>
+        <div *ngIf="editForm.get('farmId')?.invalid && (editForm.get('farmId')?.dirty || editForm.get('farmId')?.touched)"
+             class="invalid-feedback">
+          Seleccione una finca.
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancelar</button>
+    <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="editForm?.invalid">Guardar</button>
+  </div>
+  
