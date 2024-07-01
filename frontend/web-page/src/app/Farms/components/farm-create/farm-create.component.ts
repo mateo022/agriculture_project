@@ -42,6 +42,6 @@ export class FarmCreateComponent implements OnInit {
   }
 
   cancel(): void {
-    this.router.navigate(['/farms']);
+    this.activeModal.close('close');
   }
 }

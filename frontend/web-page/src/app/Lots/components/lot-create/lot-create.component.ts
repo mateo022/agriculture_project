@@ -60,4 +60,7 @@ export class LotCreateComponent implements OnInit {
       );
     }
   }
+  cancel(): void {
+    this.activeModal.close('close');
+  }
 }

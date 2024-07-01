@@ -2,28 +2,8 @@
     margin-bottom: 20px;
   }
   
-  mat-card {
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  mat-card-header {
-    background-color: #f0f0f0;
-    padding: 8px;
-  }
-  
-  mat-card-title,
-  mat-card-subtitle {
-    font-size: 18px;
-  }
-  
-  mat-card-content {
-    padding: 16px;
-  }
-  
-  mat-card-actions {
+  .card-footer{
     display: flex;
-    justify-content: flex-end;
-    padding: 8px;
-  }
+    padding-top: 2%;
+    flex-direction: column;
+}

@@ -1,0 +1,5 @@
+.card-footer{
+    display: flex;
+    padding-top: 2%;
+    flex-direction: column;
+}
