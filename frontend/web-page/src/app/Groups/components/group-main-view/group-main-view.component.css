@@ -20,8 +20,8 @@
   .card-body {
     padding: 16px;
   }
-
-.card-footer{
+  
+  .card-footer{
     display: flex;
     padding-top: 2%;
     flex-direction: column;

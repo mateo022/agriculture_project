@@ -1,0 +1,46 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h1 class="display-4">Gestionar Grupos</h1>
+      <button class="btn btn-success" (click)="openAddGroupModal()">
+        <i class="bi bi-plus-lg"></i> Agregar Grupo
+      </button>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-4" *ngFor="let group of groups">
+        <div class="card mb-4">
+          <div class="card-header bg-primary text-white">
+            <h5 class="card-title">{{ group.name }}</h5>
+
+          </div>
+          <div class="card-body">
+            <p class="card-text"><strong>Nombre lote asociado:</strong> {{ getLotName(group.lotId) }}</p>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-primary" (click)="editGroup(group)">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+            <br>
+            <button class="btn btn-danger" (click)="openDeleteModal(group)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <ng-template #deleteModal let-modal>
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar Eliminación</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('cancel')"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar el grupo "{{ selectedGroup?.name }}"?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="confirmDelete(modal)">Eliminar</button>
+      </div>
+    </ng-template>
+  </div>
+  

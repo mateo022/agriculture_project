@@ -1,0 +1,32 @@
+<div class="container mt-4">
+    <h2>Crear Nuevo Grupo</h2>
+    <form [formGroup]="groupForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="fill" class="full-width mb-3">
+        <mat-label>Seleccione el Lote:</mat-label>
+        <mat-select formControlName="lotId" required>
+          <mat-option *ngFor="let lot of lots" [value]="lot.id">{{ lot.name }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="groupForm.get('lotId')?.invalid && groupForm.get('lotId')?.touched">
+          Selección de lote es requerida
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width mb-3">
+        <mat-label>Nombre del Grupo:</mat-label>
+        <input matInput formControlName="name" required>
+        <mat-error *ngIf="groupForm.get('name')?.invalid && groupForm.get('name')?.touched">
+          Nombre del grupo es requerido
+        </mat-error>
+      </mat-form-field>
+  
+      <div class="button-group mt-4">
+        <button mat-raised-button type="submit" color="primary" [disabled]="groupForm.invalid">
+          <mat-icon>save</mat-icon> Guardar
+        </button>
+        <button mat-raised-button type="button" color="warn" (click)="cancel()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+  

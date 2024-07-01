@@ -1,3 +1,5 @@
+import { Group } from "../../Groups/models/group.model";
+
 export interface Lot {
     id: number;
     farmId: number;
@@ -5,9 +7,4 @@ export interface Lot {
     trees: number;
     stage: string;
     groups: Group[];
-  }
-  export interface Group {
-    id: number;
-    lotId: number;
-    name: string;
   }
