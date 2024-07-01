@@ -46,13 +46,14 @@ Para ejecutar correctamente este proyecto, se requiere:
    - Abra el proyecto en Visual Studio.
    - Abra la **Package Manager Console** (Consola del Administrador de Paquetes).
    - Ejecute el siguiente comando para crear la migración inicial:
-
+    ```bash 
      add-migration InitialCreate
      ```
    - Luego, aplique la migración para crear la base de datos y las tablas:
-
+      ```bash
      update-database
      ```
+
      NOTA: También se realizo cargue de las migraciones creadas unicamente sería ejecutar update-database si ya tiene el archivo migrations en la capa de acceso de datos.
 
 2. **Configurar la Cadena de Conexión:**
