@@ -9,6 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
+
 import { FarmMainViewComponent } from './components/farm-main-view/farm-main-view.component';
 import { FarmsRoutingModule } from './farms-routing.module';
 import { FarmCreateComponent } from './components/farm-create/farm-create.component';
@@ -36,7 +37,7 @@ import { FarmEditComponent } from './components/farm-edit/farm-edit.component';
     MatCardModule,
     MatToolbarModule,
     MatSelectModule,
-    MatListModule
+    MatListModule,
   ],
   exports: [
     MatButtonModule,

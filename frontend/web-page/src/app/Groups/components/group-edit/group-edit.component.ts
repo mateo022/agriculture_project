@@ -5,6 +5,7 @@ import { Lot } from '../../../Lots/models/lot.model';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GroupService } from '../../services/groups.service';
 import { LotService } from '../../../Lots/services/lots.service';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-group-edit',
@@ -21,6 +22,7 @@ export class GroupEditComponent implements OnInit {
     private fb: FormBuilder,
     private lotService: LotService,
     private groupService: GroupService,
+    private snackbarService: SnackBarService
 
   ) {
     this.editForm = this.fb.group({
@@ -38,8 +40,6 @@ export class GroupEditComponent implements OnInit {
     // Obtener todos los lotes disponibles
     this.lotService.getAllLots().subscribe(lots => {
       this.lots = lots
-      console.log(lots);
-      
     }
     );
   }
@@ -60,7 +60,7 @@ export class GroupEditComponent implements OnInit {
           this.activeModal.close(response); // Cerrar el modal y pasar la respuesta
         },
         (error) => {
-          console.error('Error updating lot:', error);
+          this.snackbarService.openSnackBar('Error actualizando el grupo');
         }
       );
     }

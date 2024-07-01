@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FarmService } from '../../services/farms.service';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-farm-create',
@@ -15,7 +16,7 @@ export class FarmCreateComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private farmService: FarmService,
-    private router: Router,
+    private snackbarService: SnackBarService,
     public activeModal: NgbActiveModal,
   ) {
     this.createForm = this.formBuilder.group({
@@ -35,7 +36,7 @@ export class FarmCreateComponent implements OnInit {
           this.activeModal.close('saved');
         },
         error => {
-          console.error('Error al crear la finca:', error);
+          this.snackbarService.openSnackBar('Error al crear la finca');
         }
       );
     }

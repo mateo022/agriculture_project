@@ -5,6 +5,7 @@ import { GroupService } from '../../services/groups.service';
 import { LotService } from '../../../Lots/services/lots.service';
 import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-group-create',
@@ -19,7 +20,8 @@ export class GroupCreateComponent implements OnInit {
     private formBuilder: FormBuilder,
     private groupService: GroupService,
     private lotService: LotService,
-    public activeModal: NgbActiveModal
+    public activeModal: NgbActiveModal,
+    private snackbarService: SnackBarService
   ) {
     this.groupForm = this.formBuilder.group({
       lotId: ['', Validators.required],
@@ -43,7 +45,7 @@ export class GroupCreateComponent implements OnInit {
         this.activeModal.close('saved');
       },
       error => {
-        console.error('Error al crear el lote:', error);
+        this.snackbarService.openSnackBar('Error al crear el lote');
       }
     );
   }

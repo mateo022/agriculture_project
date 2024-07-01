@@ -3,6 +3,7 @@ import { Farm } from '../../models/farm.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FarmService } from '../../services/farms.service';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-farm-edit',
@@ -16,7 +17,8 @@ export class FarmEditComponent {
   constructor(
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
-    private farmService: FarmService
+    private farmService: FarmService,
+    private snackbarService: SnackBarService
   ) {}
   ngOnInit(): void {
     this.editForm = this.fb.group({
@@ -32,7 +34,7 @@ export class FarmEditComponent {
       const updatedFarm = { ...this.farm, ...this.editForm.value };
       this.farmService.updateFarm(this.farm.id, updatedFarm).subscribe(
         () => this.activeModal.close('updated'),
-        (error) => console.error('Error updating farm:', error)
+        (error) => this.snackbarService.openSnackBar('Error actualizando finca')
       );
     }
   }

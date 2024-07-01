@@ -6,6 +6,7 @@ import { FarmService } from '../../../Farms/services/farms.service';
 import { LotService } from '../../services/lots.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-lot-create',
@@ -21,7 +22,7 @@ export class LotCreateComponent implements OnInit {
     private fb: FormBuilder,
     private farmService: FarmService,
     private lotService: LotService,
-    private router: Router,
+    private snackbarService: SnackBarService,
     public activeModal: NgbActiveModal,
   ) {
     this.lotForm = this.fb.group({
@@ -42,7 +43,7 @@ export class LotCreateComponent implements OnInit {
         this.farms = data.data; // Asignar el array de fincas del servicio
       },
       error => {
-        console.error('Error fetching farms:', error);
+        this.snackbarService.openSnackBar(`Error cargando fincas: ${error}`);
       }
     );
   }
@@ -55,7 +56,7 @@ export class LotCreateComponent implements OnInit {
           this.activeModal.close('saved');
         },
         error => {
-          console.error('Error al crear el lote:', error);
+          this.snackbarService.openSnackBar(`Error al crear el lote: ${error}`);
         }
       );
     }

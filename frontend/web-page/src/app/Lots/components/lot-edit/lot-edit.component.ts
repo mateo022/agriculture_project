@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LotService } from '../../services/lots.service';
 import { FarmService } from '../../../Farms/services/farms.service';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-lot-edit',
@@ -18,7 +19,8 @@ export class LotEditComponent implements OnInit {
     public activeModal: NgbActiveModal,
     private fb: FormBuilder,
     private farmService: FarmService, // Servicio de fincas
-    private lotService: LotService
+    private lotService: LotService,
+    private snackbarService: SnackBarService
   ) {
     this.editForm = this.fb.group({
       name: ['', Validators.required],
@@ -41,7 +43,7 @@ export class LotEditComponent implements OnInit {
         this.farms = data.data; // Asignar el array de fincas del servicio
       },
       error => {
-        console.error('Error fetching farms:', error);
+        this.snackbarService.openSnackBar(`Error cargando fincas: ${error}`);
       }
     );
   }
@@ -65,7 +67,7 @@ export class LotEditComponent implements OnInit {
           this.activeModal.close(response); // Cerrar el modal y pasar la respuesta
         },
         (error) => {
-          console.error('Error updating lot:', error);
+          this.snackbarService.openSnackBar(`Error actualizando lote: ${error}`);
         }
       );
     }

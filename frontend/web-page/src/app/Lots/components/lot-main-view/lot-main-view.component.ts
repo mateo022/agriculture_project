@@ -5,6 +5,7 @@ import { LotService } from '../../services/lots.service';
 import { LotCreateComponent } from '../lot-create/lot-create.component';
 import { FarmService } from '../../../Farms/services/farms.service';
 import { LotEditComponent } from '../lot-edit/lot-edit.component';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-lot-main-view',
@@ -18,10 +19,18 @@ export class LotMainViewComponent {
   private modalRef: NgbModalRef | null = null;
   
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+  images = [
+    { path: 'assets/img/lot/lot_1.jpg', alt: 'Image 1' },
+    { path: 'assets/img/lot/lot_2.jpg', alt: 'Image 2' },
+    { path: 'assets/img/lot/lot_3.jpg', alt: 'Image 3' },
+    { path: 'assets/img/lot/lot_4.jpg', alt: 'Image 4' }
+  ];
+
   constructor(
     private modalService: NgbModal,
     private lotService: LotService,
-    private farmService: FarmService
+    private farmService: FarmService,
+    private snackbarService: SnackBarService
   ) {
     this.loadLots();
     this.fetchFarms();
@@ -39,26 +48,26 @@ export class LotMainViewComponent {
         this.farms = data.data; // Asignar el array de fincas del servicio
       },
       error => {
-        console.error('Error fetching farms:', error);
+        this.snackbarService.openSnackBar(`Error cargando fincas: ${error}`);
       }
     );
   }
 
   getFarmName(farmId: number): string {
     const farm = this.farms.find(f => f.id === farmId);
-    return farm ? farm.name : 'FInca Desconocida'; // Si no encuentra la finca, devuelve un valor por defecto
+    return farm ? farm.name : 'Finca Desconocida'; // Si no encuentra la finca, devuelve un valor por defecto
   }
 
   openAddLotModal(): void {
     const modalRef = this.modalService.open(LotCreateComponent, { centered: true });
     modalRef.result.then(
       (result) => {
-        console.log(`Modal result: ${result}`);
+        this.snackbarService.openSnackBar(`Lote creado con éxito`);
         // Recargar los lotes después de agregar uno nuevo
         this.loadLots();
       },
       (reason) => {
-        console.log(`Modal dismissed: ${reason}`);
+        this.snackbarService.openSnackBar(`Error cargando el modal: ${reason}`);
       }
     );
   }
@@ -75,13 +84,13 @@ editLot(lot: any): void {
       (result) => {
         if (result) {
           // Manejar la respuesta si es necesario
-          console.log('Lote actualizado:', result);
+          this.snackbarService.openSnackBar(`Lote actualizado`);
           this.loadLots();
           // Actualizar el array de lotes o realizar alguna acción de actualización
         }
       },
       (reason) => {
-        console.log('Modal cerrado sin cambios:', reason);
+        this.snackbarService.openSnackBar(`Modal cerrado sin cambios`);
       }
     );
   }
@@ -95,10 +104,11 @@ editLot(lot: any): void {
       this.lotService.deleteLot(this.selectedLot.id).subscribe(
         () => {
           this.loadLots();
+          this.snackbarService.openSnackBar(`Lote eliminado con éxito`);
           modal.close('deleted');
         },
         error => {
-          console.error('Error al eliminar la finca:', error);
+          this.snackbarService.openSnackBar(`Error al eliminar la lote: ${error}`);
           modal.dismiss('error');
         }
       );

@@ -6,6 +6,7 @@ import { Group } from '../../models/group.model';
 import { Lot } from '../../../Lots/models/lot.model';
 import { GroupCreateComponent } from '../group-create/group-create.component';
 import { GroupEditComponent } from '../group-edit/group-edit.component';
+import { SnackBarService } from '../../../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-group-main-view',
@@ -17,10 +18,19 @@ export class GroupMainViewComponent implements OnInit {
   lots: Lot[] = [];
   selectedGroup: Group | null = null;
   @ViewChild('deleteModal') deleteModal!: TemplateRef<any>;
+
+  images = [
+    { path: 'assets/img/group/group_1.jpg', alt: 'Image 1' },
+    { path: 'assets/img/group/group_2.jpg', alt: 'Image 2' },
+    { path: 'assets/img/group/group_3.jpg', alt: 'Image 3' },
+    { path: 'assets/img/group/group_4.jpg', alt: 'Image 4' }
+  ];
+
   constructor(
     private groupService: GroupService,
     private lotService: LotService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private snackbarService: SnackBarService
   ) {}
 
   ngOnInit(): void {
@@ -49,11 +59,11 @@ export class GroupMainViewComponent implements OnInit {
     const modalRef = this.modalService.open(GroupCreateComponent, { centered: true });
     modalRef.result.then(
       (result) => {
-        console.log(`Modal result: ${result}`);
+        this.snackbarService.openSnackBar('Grupo creado con éxito.');
         this.loadGroups();
       },
       (reason) => {
-        console.log(`Modal dismissed: ${reason}`);
+        this.snackbarService.openSnackBar('Modal cerrado sin cambios');
       }
     );
   }
@@ -71,13 +81,14 @@ export class GroupMainViewComponent implements OnInit {
       (result) => {
         if (result) {
           // Manejar la respuesta si es necesario
-          console.log('Grupo actualizado:', result);
+
+          this.snackbarService.openSnackBar(`Grupo actualizado con éxito.`);
           this.loadGroups();
           // Actualizar el array de lotes o realizar alguna acción de actualización
         }
       },
       (reason) => {
-        console.log('Modal cerrado sin cambios:', reason);
+        this.snackbarService.openSnackBar(`Modal cerrado sin cambios`);
       }
     );
   }
@@ -91,6 +102,7 @@ export class GroupMainViewComponent implements OnInit {
     if (this.selectedGroup) {
       this.groupService.deleteGroup(this.selectedGroup.id).subscribe(() => {
         this.loadGroups();
+        this.snackbarService.openSnackBar('Grupo eliminado con éxito');
         modal.close();
       });
     }
