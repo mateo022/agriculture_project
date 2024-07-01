@@ -59,17 +59,16 @@ export class LotMainViewComponent {
   }
 
   openAddLotModal(): void {
-    const modalRef = this.modalService.open(LotCreateComponent, { centered: true });
-    modalRef.result.then(
-      (result) => {
-        this.snackbarService.openSnackBar(`Lote creado con éxito`);
-        // Recargar los lotes después de agregar uno nuevo
+    const modalRef = this.modalService.open(LotCreateComponent, { size: 'lg' });
+
+    modalRef.result.then(result => {
+      if (result === 'saved') {
+        this.snackbarService.openSnackBar('Lote creado con éxito.');
         this.loadLots();
-      },
-      (reason) => {
-        this.snackbarService.openSnackBar(`Error cargando el modal: ${reason}`);
       }
-    );
+    }).catch((error) => {
+      this.snackbarService.openSnackBar('Error al abrir el modal');
+    });
   }
 editLot(lot: any): void {
     const modalRef = this.modalService.open(LotEditComponent, {

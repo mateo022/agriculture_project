@@ -56,16 +56,16 @@ export class GroupMainViewComponent implements OnInit {
   }
 
   openAddGroupModal(): void {
-    const modalRef = this.modalService.open(GroupCreateComponent, { centered: true });
-    modalRef.result.then(
-      (result) => {
+    const modalRef = this.modalService.open(GroupCreateComponent, { size: 'lg' });
+
+    modalRef.result.then(result => {
+      if (result === 'saved') {
         this.snackbarService.openSnackBar('Grupo creado con éxito.');
         this.loadGroups();
-      },
-      (reason) => {
-        this.snackbarService.openSnackBar('Modal cerrado sin cambios');
       }
-    );
+    }).catch((error) => {
+      this.snackbarService.openSnackBar('Error al abrir el modal');
+    });
   }
 
   editGroup(group: Group): void {
